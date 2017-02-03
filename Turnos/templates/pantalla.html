@@ -4,14 +4,26 @@
 {% endblock titulo %}
 
 {% block Contenido %}
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.o
 	<div ng-controller="pantalla">
-
-		{$data$}
+		<div class="row">
+			<div class="col s12">
+				<div class="col s7">
+					<video class="responsive-video" controls>
+                      <source src="{{Video.Video.url}}" type="video/mp4">
+                      <source src="{{Video.Video.url}}" type="video/ogg">
+                      Tu navegador no soporta videos.
+                    </video>
+				</div>
+				<div class="col s5">
+					<div>
+						<ul class="collection" style="font-size:2em;">
+					      <li class="collection-item" ng-repeat="d in data" style=" padding-bottom: 40px; padding-top: 40px">
+					      	<strong>Caja {$d.fields.NumeroCaja$}</strong>
+					      </li>
+					    </ul>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 {% endblock Contenido %}

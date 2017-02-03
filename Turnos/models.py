@@ -61,3 +61,14 @@ class Entidad(models.Model):
 		return self.Nombre
             
     
+
+
+class Informacion(models.Model):
+	class Meta:
+		verbose_name = "Informacion"
+		verbose_name_plural = "Informaciones"
+
+	Video = models.FileField()
+	def __str__(self):
+		return str(self.Video)[1:]
+    

@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from .models import Caja
+from .models import Informacion
 
 
 def Pantalla(request):
-	return render(request, 'pantalla.html')
+	i = Informacion.objects.all()
+	return render(request, 'pantalla.html', {'Video': i[0]})
 
 # import vistas REST
 from Turnos.Vistas.Cajas import Cajas
