@@ -1,9 +1,16 @@
 from django.shortcuts import render
-from .models import Informacion
+from .models import Informacion, Entidad
 
 
+def Entidad(request):
+	pass
+
+	
 def Pantalla(request):
-	i = Informacion.objects.all()
+	try:
+		i = Informacion.objects.all()
+	except i.DoesNotExist:
+		raise Http404("No hay videos")
 	return render(request, 'pantalla.html', {'Video': i[0]})
 
 

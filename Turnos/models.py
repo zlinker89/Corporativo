@@ -39,7 +39,6 @@ class Turno(models.Model):
 	# Atributos
 	CodigoTurno = models.CharField(max_length=1000)
 	Estado = models.BooleanField()
-	Caja = models.ForeignKey(Caja)
 	TipoTurno = models.ForeignKey(TipoTurno)
 	HoraCreacion = models.DateTimeField(auto_now_add=True)
 	

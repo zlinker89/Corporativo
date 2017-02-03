@@ -13,8 +13,14 @@ app.factory('PantallaService', function($http) {
 
 app.factory('TicketService', function($http) {
   var myService = {
-    post: function() {
-      var promise = $http.post('/Ticket/').then(function (response) {
+    get: function() {
+      var promise = $http.get('/Ticket/').then(function (response) {
+        return response.data;
+      });
+      return promise;
+    },
+    post: function(pk) {
+      var promise = $http.post('/Ticket/', pk).then(function (response) {
         return response.data;
       });
       return promise;
