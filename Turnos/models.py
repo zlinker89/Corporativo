@@ -11,6 +11,7 @@ class TipoTurno(models.Model):
 
 	# Atributos
 	TipoTurno = models.CharField(max_length=100)
+	IndicativoTurno = models.CharField(max_length=5)
 
 	def __str__(self):
 		return self.TipoTurno
@@ -23,7 +24,6 @@ class Caja(models.Model):
 
 	# Atributos
 	TipoTurnos = models.ManyToManyField(TipoTurno)
-	IndicativoCaja = models.CharField(max_length=5)
 	NumeroCaja = models.IntegerField()
 	NombreFuncionario = models.CharField(max_length=100)
 
@@ -41,7 +41,8 @@ class Turno(models.Model):
 	Estado = models.BooleanField()
 	Caja = models.ForeignKey(Caja)
 	TipoTurno = models.ForeignKey(TipoTurno)
-
+	HoraCreacion = models.DateTimeField(auto_now_add=True)
+	
 	def __str__(self):
 		return self.CodigoTurno
 

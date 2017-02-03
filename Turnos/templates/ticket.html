@@ -1,0 +1,36 @@
+{% extends "Layout.html" %}
+{% block titulo %}
+	Ticket
+{% endblock titulo %}
+
+{% block Contenido %}
+<style type="text/css">
+	.card-panel:hover{
+		background: #009688;
+		transition: background 0.3s;
+	}
+	.card-panel:hover > .texto{
+		color: white;
+		transition: background 0.3s;
+	}
+</style>
+	<div ng-controller="ticket">
+		<div class="row">
+			<div class="col s12">
+			<br>
+			<div style="font-size: 4em; text-align: center"><strong>¿Que desea realizar?</strong></div>
+			<br>
+			<br>
+				<div class="row">
+					<div class="col s6 m6" ng-repeat="d in data">
+						<div class="card-panel" style="cursor: pointer; text-align: center" ng-click="GenerarTicket(d)">
+							<span class="texto" style="font-size: 3em;">
+								{$d.fields.TipoTurno$}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock Contenido %}
