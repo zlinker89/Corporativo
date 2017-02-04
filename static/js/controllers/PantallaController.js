@@ -1,15 +1,17 @@
-app.controller('pantalla', function(PantallaService, $scope, $interval) {
+app.controller('pantalla', function(PantallaService, $scope) {
 
-
-    $scope.init = function() {
+	alert("hola");
+    var init = function() {
     	console.log("intervalo");
     	PantallaService.post().then(function(d){
     		$scope.data = d;
     	});
     	PantallaService.logica().then(function(d){
     		$scope.Turnos = d;
+    		console.log(d);
     	});
+    	$scope.$apply();
     };
-	setInterval(function(){$scope.init();},2000});
-    
+	setInterval(init,2000);
+
 });
