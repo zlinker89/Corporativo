@@ -25,5 +25,13 @@
       <script type="text/javascript" src="{% static 'js/service/service.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/controllers/PantallaController.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/controllers/TicketController.js' %}"></script>
+      <script type="text/javascript">
+          $(document).ready(function() {
+              $("#btningresar").click(enviar);
+            });
+           function enviar () {
+            $("#login").submit();
+           }
+      </script>
     </body>
   </html>

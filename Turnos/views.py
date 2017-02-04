@@ -1,11 +1,13 @@
-from django.shortcuts import render
-from .models import Informacion, Entidad
+from django.shortcuts import render, render_to_response, redirect
+from .models import Informacion, Entidad, UsuarioCaja, Turno, TipoTurno
+from django.http import HttpResponse
+from django.core import serializers
 
 
 def Entidad(request):
 	pass
 
-	
+
 def Pantalla(request):
 	try:
 		i = Informacion.objects.all()
@@ -16,6 +18,87 @@ def Pantalla(request):
 
 def TipoTurnos(request):
 	return render(request, 'ticket.html')
+
+
+def Index(request):
+	return render(request, 'index.html')
+
+
+def CajaUsuario(request):
+	# verificamos el usuario
+	u = UsuarioCaja.objects.filter(pk=int(request.session.get("usuario")))
+	if(len(u) == 0):
+		return redirect("/logout")
+	usuario = u[0]
+	TurnosEspera = None
+	TurnoActivo = Turno.objects.filter(Estado=True, Caja = u[0].Caja)
+	if TurnoActivo.count() > 0:
+		TurnoActivo = TurnoActivo[0]
+	for t in u[0].Caja.TipoTurnos.all():
+		Turnos = Turno.objects.filter(Estado=True, TipoTurno= t, Caja=None)
+		if not TurnosEspera:
+			TurnosEspera = Turnos
+		else:
+			TurnosEspera.append(Turnos)
+	return render_to_response("Caja.html",locals())
+
+
+def Llamar(request, idTurno):
+	# verificamos el usuario
+	u = UsuarioCaja.objects.filter(pk=int(request.session.get("usuario")))
+	if(len(u) == 0):
+		return redirect("/logout")
+	t = Turno.objects.get(pk=idTurno)
+	TurnoPendiente = Turno.objects.filter(Estado=True, Caja=u[0].Caja)
+	if TurnoPendiente.count() != 0:
+		t = TurnoPendiente[0]
+	if t.Caja == None:
+		t.Caja = u[0].Caja
+		t.save()
+	elif t.Caja == u[0].Caja and t.Llamados > 0:
+		t.Llamados -= 1
+		if t.Llamados == 0:
+			t.Estado = False
+		t.save()
+
+	return redirect("CajaUsuario")
+
+
+def PantallaLogica(request):
+	TurnosEspera = None
+	tipos = TipoTurno.objects.all()
+	for t in tipos:
+		Turnos = Turno.objects.filter(Estado=True, TipoTurno= t).exclude(Caja=None)
+		if not TurnosEspera:
+			TurnosEspera = Turnos
+		else:
+			TurnosEspera.append(Turnos)
+	print "+++++++++++++++++++++++++++++++++++++"
+	print TurnosEspera
+	print "+++++++++++++++++++++++++++++++++++++"
+	data = serializers.serialize('json', list(TurnosEspera))
+	return HttpResponse(data, content_type='application/json')
+
+
+def login(request):
+	try:
+		if(request.method == 'POST'):
+			
+			u = UsuarioCaja.objects.filter(Nombre = request.POST.get("Nombre"),Password = request.POST.get("Password"))
+			if len(u) > 0:
+				request.session['usuario'] = u[0].pk
+				return redirect("CajaUsuario")
+			else:
+				error = "Nombre o contrasena invalidos."
+				return render_to_response("index.html",locals())
+	except Exception as e:
+		redirect("Index")
+
+
+def logout(request):
+	request.session['usuario'] = -1
+	return redirect("Index")
+
 
 # import vistas REST
 from Turnos.Vistas.Cajas import Cajas

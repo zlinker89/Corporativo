@@ -1,0 +1,44 @@
+{% extends "Layout.html" %}
+{% block titulo %}
+	Iniciar sesión
+{% endblock titulo %}
+
+{% block Contenido %}
+		<style type="text/css">
+	        #error{
+	          background: rgba(255,0,0,0.1);
+	          padding: 25px;
+	        }
+	    </style>
+	<div>
+		<div class="row">
+		{% if error %}
+            <div class="center" id="error">
+              <h5>{{error}}{{fecha}}</h5>
+            </div>
+          {% endif %}
+			<div class="col s12">
+			<form class="col row s12" id="login" action="/login/" method="POST">
+	            {% csrf_token %}
+	            <div class="row">
+	              <div class="input-field col s12">
+	                <input id="Nombre" name="Nombre" type="text" class="validate">
+	                <label for="Nombre">Usuario:</label>
+	              </div>
+	              <div class="input-field col s12">
+	                <input id="Password" name="Password" type="password" class="validate">
+	                <label for="Password">Contraseña</label>
+	              </div>
+	              
+	              <div class="row">
+	                <div class="col row s12 center">
+	                  <button type="button" class="btn waves-effect waves-light" id="btningresar">Ingresar<i class="material-icons right">send</i></button>
+	                </div>
+	              </div>
+	            </div>
+	        </form>
+			</div>	
+		</div>
+	</div>
+	
+{% endblock Contenido %}

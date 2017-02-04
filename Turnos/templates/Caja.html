@@ -1,0 +1,42 @@
+{% extends "Layout.html" %}
+{% block titulo %}
+	Caja {{usuario.Caja.NumeroCaja}} -- {{usuario.NombreFuncionario}}
+{% endblock titulo %}
+
+{% block Contenido %}
+	<div ng-controller="ticket">
+		<div class="row">
+			<div class="col s12">
+				<div class="col s4">
+					<ol class="collection with-header">
+					{% for t in TurnosEspera %}
+						<li class="collection-item">
+								<span style="font-size: 2em">{{t}}</span>
+								<a href="/llamar/{{t.pk}}" class="secondary-content"><i class="material-icons">phone</i></a>
+						</li>
+					{% endfor %}
+					</ol>
+				</div>
+				{% if  TurnoActivo %}
+					<div class="col s5 offset-s2">
+					<br>
+					<br>
+						<div class="col s6" style="font-size: 3em">
+							Turno: {{TurnoActivo}}
+						</div>
+						<div class="col s6" style="font-size: 3em">
+								Intentos: {{TurnoActivo.Llamados}}
+							</div>
+						<div class="col s12">
+							<div class="col s6" style="font-size: 2em">
+								<a href="/llamar/{{TurnoActivo.pk}}"><i class="medium material-icons">phone</i></a>
+							</div>
+							
+							
+						</div>
+					</div>
+				{% endif %}
+			</div>	
+		</div>
+	</div>
+{% endblock Contenido %}

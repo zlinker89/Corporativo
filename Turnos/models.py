@@ -25,10 +25,9 @@ class Caja(models.Model):
 	# Atributos
 	TipoTurnos = models.ManyToManyField(TipoTurno)
 	NumeroCaja = models.IntegerField()
-	NombreFuncionario = models.CharField(max_length=100)
 
 	def __str__(self):
-		return str(self.NumeroCaja) + " - " + self.NombreFuncionario
+		return str(self.NumeroCaja)
 
 
 class Turno(models.Model):
@@ -39,7 +38,9 @@ class Turno(models.Model):
 	# Atributos
 	CodigoTurno = models.CharField(max_length=1000)
 	Estado = models.BooleanField()
+	Llamados = models.IntegerField(default = 3)
 	TipoTurno = models.ForeignKey(TipoTurno)
+	Caja = models.ForeignKey(Caja, null=True, blank=True, default = None)
 	HoraCreacion = models.DateTimeField(auto_now_add=True)
 	
 	def __str__(self):
@@ -71,4 +72,19 @@ class Informacion(models.Model):
 	Video = models.FileField()
 	def __str__(self):
 		return str(self.Video)[1:]
+
+
+class UsuarioCaja(models.Model):
+	class Meta:
+		verbose_name = "UsuarioCaja"
+		verbose_name_plural = "UsuarioCajas"
+
+	Nombre = models.CharField(max_length=50)
+	Password = models.CharField(max_length=50)
+	NombreFuncionario = models.CharField(max_length=100)
+	Caja = models.ForeignKey(Caja)
+
+	def __str__(self):
+		return self.Nombre
+    
     

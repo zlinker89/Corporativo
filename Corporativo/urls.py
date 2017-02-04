@@ -25,6 +25,11 @@ urlpatterns = [
     url(r'^Ticket/', views.Ticket.as_view(), name='Ticket'),
     url(r'^tipoturnos/', views.TipoTurnos, name='TipoTurnos'),
     url(r'^pantalla/', views.Pantalla, name='Pantalla'),
+    url(r'^logica/', views.PantallaLogica, name='PantallaLogica'),
+    url(r'^login/', views.login, name='login'),
+    url(r'^cajausuario/', views.CajaUsuario, name='CajaUsuario'),
+    url(r'^llamar/(/*[0-9]+)/', views.Llamar, name='Llamar'),
+    url(r'^$', views.Index, name='Index')
 ]
 
 urlpatterns += staticfiles_urlpatterns()

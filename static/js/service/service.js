@@ -5,6 +5,12 @@ app.factory('PantallaService', function($http) {
         return response.data;
       });
       return promise;
+    },
+    logica: function() {
+      var promise = $http.get('/logica/').then(function (response) {
+        return response.data;
+      });
+      return promise;
     }
   };
   return myService;
