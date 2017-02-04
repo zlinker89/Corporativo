@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response, redirect
 from .models import Informacion, Entidad, UsuarioCaja, Turno, TipoTurno
 from django.http import HttpResponse
 from django.core import serializers
-
+from itertools import chain
 
 def Entidad(request):
 	pass
@@ -39,7 +39,7 @@ def CajaUsuario(request):
 		if not TurnosEspera:
 			TurnosEspera = Turnos
 		else:
-			TurnosEspera.append(Turnos)
+			TurnosEspera = chain(TurnosEspera, Turnos)
 	return render_to_response("Caja.html",locals())
 
 
@@ -72,7 +72,7 @@ def PantallaLogica(request):
 		if not TurnosEspera:
 			TurnosEspera = Turnos
 		else:
-			TurnosEspera.append(Turnos)
+			TurnosEspera = chain(TurnosEspera, Turnos)
 	print "+++++++++++++++++++++++++++++++++++++"
 	print TurnosEspera
 	print "+++++++++++++++++++++++++++++++++++++"

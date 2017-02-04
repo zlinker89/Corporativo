@@ -1,6 +1,5 @@
 app.controller('pantalla', function(PantallaService, $scope) {
 
-	alert("hola");
     var init = function() {
     	console.log("intervalo");
     	PantallaService.post().then(function(d){
