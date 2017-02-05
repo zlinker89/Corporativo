@@ -34,6 +34,7 @@ def CajaUsuario(request):
 	TurnoActivo = Turno.objects.filter(Estado=True, Caja = u[0].Caja)
 	if TurnoActivo.count() > 0:
 		TurnoActivo = TurnoActivo[0]
+		TurnoActivo.Llamados -= 1
 	for t in u[0].Caja.TipoTurnos.all():
 		Turnos = Turno.objects.filter(Estado=True, TipoTurno= t, Caja=None)
 		if not TurnosEspera:
@@ -57,7 +58,7 @@ def Llamar(request, idTurno):
 		t.save()
 	elif t.Caja == u[0].Caja and t.Llamados > 0:
 		t.Llamados -= 1
-		if t.Llamados == 0:
+		if t.Llamados <= 0:
 			t.Estado = False
 		t.save()
 

@@ -29,7 +29,13 @@
 							</div>
 						<div class="col s12">
 							<div class="col s6" style="font-size: 2em">
-								<a href="/llamar/{{TurnoActivo.pk}}"><i class="medium material-icons">phone</i></a>
+								<a href="/llamar/{{TurnoActivo.pk}}">
+									{% if  TurnoActivo.Llamados > 0 %}
+										<i class="medium material-icons">phone</i>
+										{% else %}
+										<i class="medium material-icons">delete</i>
+									{% endif %}
+								</a>
 							</div>
 							
 							
