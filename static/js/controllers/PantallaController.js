@@ -1,7 +1,16 @@
 app.controller('pantalla', function(PantallaService, $scope) {
 	$scope.data = [];
 	$scope.Turnos = [];
-
+	var p = document.getElementById("Pantalla");
+	if (p.requestFullscreen) {
+		p.requestFullscreen();
+	} else if (p.webkitRequestFullscreen) {
+		p.webkitRequestFullscreen();
+	} else if (p.mozRequestFullScreen) {
+		p.mozRequestFullScreen();
+	} else if (p.msRequestFullscreen) {
+		p.msRequestFullscreen();
+	}
     var init = function() {
     	console.log("intervalo");
     	PantallaService.post().then(function(d){
@@ -29,6 +38,15 @@ app.controller('pantalla', function(PantallaService, $scope) {
 								ChangeColor(caja);
 						}
 					}
+					if (list.length < Newlst.length) {
+						if (list[i]) {
+								console.log("hubo un cambio " + list[i].fields.CodigoTurno + " ----- " + Newlst[i].fields.CodigoTurno);
+								document.getElementById('player').play();
+								var caja = "caja" + Newlst[i].fields.Caja;
+								ChangeColor(caja);
+						}
+					}
+
 				}else{
 					document.getElementById('player').play();
 					var caja = "caja" + list[i].fields.Caja;
@@ -39,6 +57,6 @@ app.controller('pantalla', function(PantallaService, $scope) {
 
 	function ChangeColor(caja) {
 		document.getElementById(caja).style.background = "#f2f2f2";
-		setTimeout(function(){document.getElementById(caja).style.background = "white";}, 2500);
+		setTimeout(function(){document.getElementById(caja).style.background = "white";}, 5500);
 	}
 });

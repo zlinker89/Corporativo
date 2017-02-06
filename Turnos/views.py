@@ -1,11 +1,9 @@
 from django.shortcuts import render, render_to_response, redirect
-from .models import Informacion, Entidad, UsuarioCaja, Turno, TipoTurno
+from .models import Informacion, Entidad, UsuarioCaja, Turno, TipoTurno, Entidad
 from django.http import HttpResponse
 from django.core import serializers
 from itertools import chain
 
-def Entidad(request):
-	pass
 
 
 def Pantalla(request):
@@ -30,18 +28,48 @@ def CajaUsuario(request):
 	if(len(u) == 0):
 		return redirect("/logout")
 	usuario = u[0]
+	# TurnosEspera = None
+	# TurnoActivo = Turno.objects.filter(Estado=True, Caja = u[0].Caja)
+	# if TurnoActivo.count() > 0:
+	# 	TurnoActivo = TurnoActivo[0]
+	# 	TurnoActivo.Llamados -= 1
+	# for t in u[0].Caja.TipoTurnos.all():
+	# 	Turnos = Turno.objects.filter(Estado=True, TipoTurno= t, Caja=None)
+	# 	if not TurnosEspera:
+	# 		TurnosEspera = Turnos
+	# 	else:
+	# 		TurnosEspera = chain(TurnosEspera, Turnos)
+	return render_to_response("Caja.html",locals())
+
+
+def TurnosEspera(request):
+	# verificamos el usuario
+	u = UsuarioCaja.objects.filter(pk=int(request.session.get("usuario")))
+	if(len(u) == 0):
+		return redirect("/logout")
+	usuario = u[0]
 	TurnosEspera = None
-	TurnoActivo = Turno.objects.filter(Estado=True, Caja = u[0].Caja)
-	if TurnoActivo.count() > 0:
-		TurnoActivo = TurnoActivo[0]
-		TurnoActivo.Llamados -= 1
 	for t in u[0].Caja.TipoTurnos.all():
 		Turnos = Turno.objects.filter(Estado=True, TipoTurno= t, Caja=None)
 		if not TurnosEspera:
 			TurnosEspera = Turnos
 		else:
 			TurnosEspera = chain(TurnosEspera, Turnos)
-	return render_to_response("Caja.html",locals())
+	data = serializers.serialize('json', list(TurnosEspera))
+	return HttpResponse(data, content_type='application/json')
+
+
+def TurnoActivo(request):
+	# verificamos el usuario
+	u = UsuarioCaja.objects.filter(pk=int(request.session.get("usuario")))
+	if(len(u) == 0):
+		return redirect("/logout")
+	usuario = u[0]
+	TurnoActivo = Turno.objects.filter(Estado=True, Caja = u[0].Caja)
+	if TurnoActivo.count() > 0:
+		TurnoActivo[0].Llamados -= 1
+	data = serializers.serialize('json', list(TurnoActivo))
+	return HttpResponse(data, content_type='application/json')
 
 
 def Llamar(request, idTurno):
@@ -61,8 +89,21 @@ def Llamar(request, idTurno):
 		if t.Llamados <= 0:
 			t.Estado = False
 		t.save()
+	data = serializers.serialize('json', list(TurnoPendiente))
+	return HttpResponse(data, content_type='application/json')
 
-	return redirect("CajaUsuario")
+
+def Finalizar(request, idTurno):
+	# verificamos el usuario
+	u = UsuarioCaja.objects.filter(pk=int(request.session.get("usuario")))
+	if(len(u) == 0):
+		return redirect("/logout")
+	t = Turno.objects.get(Estado=True, Caja=u[0].Caja)
+	t.Llamados = 0
+	t.Estado = False
+	t.save()
+	data = serializers.serialize('json', list(u))
+	return HttpResponse(data, content_type='application/json')
 
 
 def PantallaLogica(request):
@@ -74,9 +115,6 @@ def PantallaLogica(request):
 			TurnosEspera = Turnos
 		else:
 			TurnosEspera = chain(TurnosEspera, Turnos)
-	print "+++++++++++++++++++++++++++++++++++++"
-	print TurnosEspera
-	print "+++++++++++++++++++++++++++++++++++++"
 	data = serializers.serialize('json', list(TurnosEspera))
 	return HttpResponse(data, content_type='application/json')
 
@@ -99,6 +137,12 @@ def login(request):
 def logout(request):
 	request.session['usuario'] = -1
 	return redirect("Index")
+
+
+def Entidades(request):
+	Elst = Entidad.objects.all()
+	data = serializers.serialize('json', list(Elst))
+	return HttpResponse(data, content_type='application/json')
 
 
 # import vistas REST

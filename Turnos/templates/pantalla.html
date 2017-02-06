@@ -4,7 +4,7 @@
 {% endblock titulo %}
 
 {% block Contenido %}
-	<div ng-controller="pantalla">
+	<div ng-controller="pantalla" id="Pantalla">
 	
 		<div class="row">
 			<div class="col s12">
@@ -12,7 +12,7 @@
 			<br>
 			<br>
 				<div class="col s7">
-					<video class="responsive-video" controls>
+					<video class="responsive-video" autoplay muted loop>
                       <source src="{{Video.Video.url}}" type="video/mp4">
                       <source src="{{Video.Video.url}}" type="video/ogg">
                       Tu navegador no soporta videos.

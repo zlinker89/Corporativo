@@ -21,13 +21,14 @@
         {% block Contenido %}{% endblock Contenido %}
       <!--Import jQuery before materialize.js-->
       <!--Mis scripts de angular-->
-      
       <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/jQuery.print.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/service/service.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/controllers/PantallaController.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/controllers/TicketController.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/controllers/CajaController.js' %}"></script>
       <script type="text/javascript">
           $(document).ready(function() {
               $("#btningresar").click(enviar);
@@ -35,6 +36,19 @@
            function enviar () {
             $("#login").submit();
            }
+         //   function Print()
+         // {
+         //  if (document.all) 
+         //     {
+         //       WebBrowser1.ExecWB(6, 6) //use 6, 1 to prompt the print dialog or 6, 6 to omit it; 
+         //        WebBrowser1.outerHTML = "";
+         //     }
+         // else
+         //    {
+         //     window.print();
+         //     }
+         // }
+
       </script>
     </body>
   </html>

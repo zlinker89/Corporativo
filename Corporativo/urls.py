@@ -29,6 +29,10 @@ urlpatterns = [
     url(r'^login/', views.login, name='login'),
     url(r'^cajausuario/', views.CajaUsuario, name='CajaUsuario'),
     url(r'^llamar/(/*[0-9]+)/', views.Llamar, name='Llamar'),
+    url(r'^finalizar/(/*[0-9]+)/', views.Finalizar, name='Finalizar'),
+    url(r'^turnosespera/', views.TurnosEspera, name='TurnosEspera'),
+    url(r'^turnoactivo/', views.TurnoActivo, name='TurnoActivo'),
+    url(r'^entidad/', views.Entidades, name='Entidades'),
     url(r'^$', views.Index, name='Index')
 ]
 
